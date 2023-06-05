@@ -1,70 +1,55 @@
-# Getting Started with Create React App
+# Deploying React to GitHub When Using React Router
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+When deploying to React site to GitHub Pages, weird things happen with your site navigation links. This is because of how GitHub handles pathing for your site.
 
-## Available Scripts
+Here's a very small app with a fix implemented. The files that go along with this fix are not mine. I found it [here](https://github.com/rafgraph/spa-github-pages) after several tedious hours. The additional "prefix" code is mine. So if that doesn't work, see me.
 
-In the project directory, you can run:
+Follow these steps and you should be ok. These instructions assume you are creating a project site on GitHub, not the one that is specifically tied to your username. (If it's the same as all the other homeworks you've done, it's a Project site and you're good.)
 
-### `npm start`
+- ### Build your site as per usual.
+- ### Prep the site for GitHub pages (see below if you don't know how)
+- ### Anywhere where you will be navigating to a page on your site, you'll need add the repo name to the link. But you can only do this for the production site. Take a look at the `App.js` or the `components/Header.jsx` file to see how I handled this.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- ### These next instructions based off the solution I found.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+<hr/>  
 
-### `npm test`
+- ### Copy the `public/404.html` file as-is and put it in the public folder of your project.  
+- ### In the `public/index.html` file of this repo you'll see some code you need to copy and paste into your `index.html` file. Make sure the code is placed BEFORE the closing `</head>` tag.
+  
+<hr/>  
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- ### Commit your code as per usual.
+- ### Once the code is committed, from your terminal, run:
+  ```
+  npm run deploy
+  ```
 
-### `npm run build`
+<hr/>
+  
+## Prepping a Site for GitHub Pages
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+To get a React site ready for GitHub pages, do the following:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- ### Create a new repo for the site. We'll assume here the name is "my-react-site"
+- ### In the Settings area for the repo, go to the Pages section, and make sure the following settings are set:  
+  - #### Source: Deploy from a branch 
+  - #### Branch: gh-pages (using the /root directory)  
+  - #### (You may not be able to make these changes until after your first deploy)
+- ### Make sure you know your GitHub username. We'll assume here its "johndoe123"
+- ### In your package.json file, make sure you have an entry called homepage, and it points to the eventual location of your site. It should look like this:  
+`"homepage": "https://johndoe123.github.io/my-react-site",`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Notice how both your Github username and the repo name are included above.
 
-### `npm run eject`
+- ### Also in your package.json file, add the following two entries to the scripts area:
+```
+"predeploy": "npm run build",
+"deploy": "gh-pages -d build",
+``` 
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- ### Install the gh-pages node package:
+```
+npm i -D gh-pages
+```
+- ### Anytime you push new code to the repo, you will need to also run `npm run deploy` again. After you deploy the first time, the changes mentioned above in the Settings -> Pages will probably be made for you.
