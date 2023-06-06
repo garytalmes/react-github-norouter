@@ -1,4 +1,4 @@
-# Deploying React to GitHub When Using React Router
+# Deploying React to GitHub When NOT Using React Router
 
 When deploying to React site to GitHub Pages, weird things happen with your site navigation links. This is because of how GitHub handles pathing for your site.
 
